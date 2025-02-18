@@ -10,11 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class InvestConfig {
 
     @Bean
-    public HelloWorldService helloWorldService() {
-        return new HelloWorldService();
-    }
-
-    @Bean
     public StockFactory stockFactory() {
         return new StockFactory();
     }
