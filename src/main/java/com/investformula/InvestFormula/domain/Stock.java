@@ -1,12 +1,17 @@
 package com.investformula.InvestFormula.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.investformula.InvestFormula.infra.PreConditions;
 import jakarta.persistence.*;
-
+import java.io.Serializable;
 
 @Entity
 @Table(name = "stocks")
-public class Stock {
+@JsonIgnoreProperties({"resolver", "repository"})
+public class Stock implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "stock")
@@ -27,10 +32,12 @@ public class Stock {
     private StockFormulas formulas;
 
     @Transient
-    private StockFormulaResolver resolver;
+    @JsonIgnore
+    private transient StockFormulaResolver resolver;
 
     @Transient
-    private StockRepository repository;
+    @JsonIgnore
+    private transient StockRepository repository;
 
     protected Stock() {}
 
@@ -52,7 +59,7 @@ public class Stock {
     }
 
     public void withFormulas() {
-        if(PreConditions.nonNull(properties)) {
+        if (PreConditions.nonNull(properties)) {
             this.formulas = resolver.getFormulasBy(properties);
             return;
         }
@@ -62,7 +69,6 @@ public class Stock {
     public StockFormulas getFormulas() {
         return this.formulas;
     }
-
 
     public void saveOrUpdate() {
         repository.save(this);

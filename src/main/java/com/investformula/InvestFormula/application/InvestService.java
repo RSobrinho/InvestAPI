@@ -8,6 +8,7 @@ import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties
 import com.investformula.InvestFormula.infra.brapi.BrapiInvestClient;
 import com.investformula.InvestFormula.domain.interfaces.GeneralInvestInfo;
 import com.investformula.InvestFormula.infra.configuration.ApiConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class InvestService {
         this.stockPropertiesFactory = stockPropertiesFactory;
     }
 
+    @Cacheable(value = "stock_command", key = "#command.limit + '-' + #command.type + '-' + #command.sector")
     public List<Stock> getAllInvestContent(InvestContentCommand command) {
         GeneralInvestInfo generalInfo = brapiInvestClient.getGeneralInfo(apiConfig.getAuthorizationHeader(),
                 command.limit(), command.type(), command.sector());
