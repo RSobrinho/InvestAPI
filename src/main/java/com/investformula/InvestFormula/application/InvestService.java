@@ -3,6 +3,7 @@ package com.investformula.InvestFormula.application;
 import com.investformula.InvestFormula.application.command.InvestContentCommand;
 import com.investformula.InvestFormula.domain.Stock;
 import com.investformula.InvestFormula.domain.StockFactory;
+import com.investformula.InvestFormula.domain.interfaces.FullInvestInfo;
 import com.investformula.InvestFormula.infra.brapi.BrapiInvestClient;
 import com.investformula.InvestFormula.domain.interfaces.GeneralInvestInfo;
 import com.investformula.InvestFormula.infra.configuration.ApiConfig;
@@ -26,16 +27,24 @@ public class InvestService {
         this.stockFactory = stockFactory;
     }
 
-    public void getStockContent(List<Stock> stocks) {
+    public FullInvestInfo getStockContent(List<Stock> stocks) {
         String stocksName = stocks.stream().map(Stock::name).collect(Collectors.joining(","));
-        brapiInvestClient.getByTicker(apiConfig.getAuthorizationHeader(), stocksName);
+        return brapiInvestClient.getByTicker(apiConfig.getAuthorizationHeader(), stocksName);
     }
 
     public List<Stock> getAllInvestContent(InvestContentCommand command) {
-        GeneralInvestInfo general = brapiInvestClient.getGeneralInfo(apiConfig.getAuthorizationHeader(), command.limit(), command.type(), command.sector());
-        List<Stock> stocks = new ArrayList<>();
-        general.stocks().forEach(stockRequest -> stocks.add(stockFactory.simpleCreate(stockRequest)));
+        GeneralInvestInfo generalInfo = brapiInvestClient.getGeneralInfo(apiConfig.getAuthorizationHeader(), command.limit(), command.type(), command.sector());
 
+        return saveFullPropertiesOnStocks(generalInfo);
+    }
+
+    public List<Stock> saveFullPropertiesOnStocks(GeneralInvestInfo generalInvestInfo) {
+        List<Stock> stocks = new ArrayList<>();
+        generalInvestInfo.stocks().forEach(stockRequest -> stocks.add(stockFactory.simpleCreate(stockRequest)));
+        FullInvestInfo fullInvestInfo = getStockContent(stocks);
+        // todo: add on repository, inside factory (or inside domain Stock depending on the context)
+        stocks.forEach(stock -> stock.withFullProperties(fullInvestInfo.findByTicker(stock.name())));
+        stocks.forEach(Stock::createFormulas);
         return stocks;
     }
 }

@@ -1,0 +1,8 @@
+Please compute and return only a single line with the following financial metrics using the JSON data provided. The output must be in the exact format below, with no absolute additional text:
+
+P/E Ratio,<value>|Earnings Yield,<value>|Distance to 52-Week High (%),<value>|Distance to 52-Week Low (%),<value>|Daily Range,<value>|Average Daily Price,<value>|Daily Percentage Change (%),<value>
+
+If any metric is already provided in the JSON (e.g., priceEarnings for P/E Ratio), use that value where applicable. Do not include any commentary or explanation.
+
+JSON:
+PUT_JSON_HERE

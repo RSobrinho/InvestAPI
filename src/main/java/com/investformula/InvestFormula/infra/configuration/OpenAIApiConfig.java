@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class BrapiApiConfig implements ApiConfig {
-
-    @Value("${brapi.api.key}")
+public class OpenAIApiConfig implements ApiConfig{
+    @Value("${openai.api.key}")
     private String apiKey;
 
     @Override

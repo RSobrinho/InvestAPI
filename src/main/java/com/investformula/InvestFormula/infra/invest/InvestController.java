@@ -15,23 +15,17 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class InvestController {
 
-    private final ApiConfig apiConfig;
     private final InvestService investService;
 
-    public InvestController(ApiConfig apiConfig, InvestService investService) {
-        this.apiConfig = apiConfig;
+    public InvestController(InvestService investService) {
         this.investService = investService;
     }
 
     @GetMapping("/quote")
-    public ResponseEntity<InvestStocksResponse> getAll(@RequestParam String sector, @RequestParam String limit, @RequestParam String type) {
+    public ResponseEntity<InvestStocksResponse> getAll(@RequestParam String sector, @RequestParam String limit,
+                                                       @RequestParam String type) {
         GetAllRequest getAllRequest = GetAllRequest.from(sector, limit, type);
         List<Stock> stocks = investService.getAllInvestContent(getAllRequest.toCommand());
         return ResponseEntity.of(Optional.of(InvestStocksResponse.from(stocks)));
     }
-
-//    @PostMapping // @PostMapping("/{id}")
-//    public String helloWorldPost(@RequestBody User body) {
-//        return "Hello World" + body.email();
-//    }
 }

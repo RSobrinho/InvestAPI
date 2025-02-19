@@ -10,6 +10,8 @@ public interface BrapiInvestClient {
     BrapiFullInvestInfo getByTicker(@RequestHeader Map<String, String> headers, @PathVariable String ticker);
 
     @GetMapping("/quote/list")
-    BrapiGeneralInvestInfo getGeneralInfo(@RequestHeader Map<String, String> headers, @RequestParam String limit,
-                                          @RequestParam String type, @RequestParam String sector);
+    BrapiGeneralInvestInfo getGeneralInfo(@RequestHeader Map<String, String> headers,
+                                          @RequestParam(name = "limit") String limit,
+                                          @RequestParam(name = "type") String type,
+                                          @RequestParam(name = "sector") String sector);
 }

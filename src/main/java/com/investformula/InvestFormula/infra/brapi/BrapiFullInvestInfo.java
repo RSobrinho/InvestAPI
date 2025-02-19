@@ -10,4 +10,13 @@ public record BrapiFullInvestInfo(List<BrapiStockProperties> results, String req
     public List<? extends StockProperties> stockProperties() {
         return results;
     }
+
+    @Override
+    public StockProperties findByTicker(String ticker) {
+        return stockProperties().stream()
+                .filter(stock -> stock.ticker().equalsIgnoreCase(ticker))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
 }

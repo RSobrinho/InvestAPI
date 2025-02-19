@@ -1,29 +1,44 @@
 package com.investformula.InvestFormula.domain;
 
-public class Stock {
-    private final String stock;
-    private final String fullName;
-    private final String close;
-    private final String volume;
-    private final String market_cap;
-    private final String logo;
-    private final String sector;
+import com.investformula.InvestFormula.domain.interfaces.StockProperties;
+import com.investformula.InvestFormula.infra.PreConditions;
 
-    public Stock(String stock, String fullName, String close, String volume, String marketCap, String logo, String sector) {
+public class Stock {
+    private final StockFormulaResolver resolver;
+    private final String stock;
+    private final String sector;
+    private final String volume;
+    private String fullName;
+    private String close;
+    private String market_cap;
+    private String logo;
+    private StockProperties properties;
+    private StockFormulas formulas;
+
+    public Stock(String stock, String sector, String volume, StockFormulaResolver resolver) {
         this.stock = stock;
-        this.fullName = fullName;
-        this.close = close;
-        this.volume = volume;
-        market_cap = marketCap;
-        this.logo = logo;
         this.sector = sector;
+        this.volume = volume;
+        this.resolver = resolver;
     }
 
     public String name() {
         return stock;
     }
 
-    public String formulaX() {
-        return "valorDaformula";
+    public void withFullProperties(StockProperties properties) {
+        this.properties = properties;
+    }
+
+    public void createFormulas() {
+        if(PreConditions.nonNull(properties)) {
+            this.formulas = resolver.getFormulasBy(properties);
+            return;
+        }
+        throw new IllegalArgumentException("full properties is null");
+    }
+
+    public StockFormulas getFormulas() {
+        return this.formulas;
     }
 }
