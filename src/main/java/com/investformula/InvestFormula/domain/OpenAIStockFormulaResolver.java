@@ -1,6 +1,6 @@
 package com.investformula.InvestFormula.domain;
 
-import com.investformula.InvestFormula.domain.interfaces.StockProperties;
+import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties;
 import com.investformula.InvestFormula.infra.configuration.ApiConfig;
 import com.investformula.InvestFormula.infra.openai.OpenAIClient;
 import com.investformula.InvestFormula.infra.openai.OpenAIMessage;
@@ -29,7 +29,7 @@ public class OpenAIStockFormulaResolver implements StockFormulaResolver {
         this.client = client;
     }
 
-    public StockFormulas getFormulasBy(StockProperties properties) {
+    public StockFormulas getFormulasBy(ExternalStockProperties properties) {
         List<OpenAIMessage> messages = getOpenAIMessages(properties);
         PromptResponse response = client.executePrompt(getHeaders(), new PromptRequest(MODEL, messages));
         String resultMessage = response.choices().get(0).message().content();
@@ -58,7 +58,7 @@ public class OpenAIStockFormulaResolver implements StockFormulaResolver {
     }
 
     @NotNull
-    private static List<OpenAIMessage> getOpenAIMessages(StockProperties properties) {
+    private static List<OpenAIMessage> getOpenAIMessages(ExternalStockProperties properties) {
         String completeUserPrompt = FileReader.read(USER_PROMPT_PATH).replace("PUT_JSON_HERE", properties.toString());
         return List.of(OpenAIMessage.developerWith(FileReader.read(DEVELOPER_PROMPT_PATH)),
                 OpenAIMessage.userWith(completeUserPrompt));

@@ -3,6 +3,6 @@ package com.investformula.InvestFormula.domain.interfaces;
 import java.util.List;
 
 public interface FullInvestInfo {
-    List<? extends StockProperties> stockProperties();
-    StockProperties findByTicker(String ticker);
+    List<? extends ExternalStockProperties> stockProperties();
+    ExternalStockProperties findByTicker(String ticker);
 }

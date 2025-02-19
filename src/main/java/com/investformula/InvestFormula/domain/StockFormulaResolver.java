@@ -1,7 +1,7 @@
 package com.investformula.InvestFormula.domain;
 
-import com.investformula.InvestFormula.domain.interfaces.StockProperties;
+import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties;
 
 public interface StockFormulaResolver {
-    StockFormulas getFormulasBy(StockProperties properties);
+    StockFormulas getFormulasBy(ExternalStockProperties properties);
 }

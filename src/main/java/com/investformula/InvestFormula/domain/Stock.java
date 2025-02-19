@@ -1,36 +1,57 @@
 package com.investformula.InvestFormula.domain;
 
-import com.investformula.InvestFormula.domain.interfaces.StockProperties;
 import com.investformula.InvestFormula.infra.PreConditions;
+import jakarta.persistence.*;
 
+
+@Entity
+@Table(name = "stocks")
 public class Stock {
-    private final StockFormulaResolver resolver;
-    private final String stock;
-    private final String sector;
-    private final String volume;
-    private String fullName;
-    private String close;
-    private String market_cap;
-    private String logo;
+
+    @Id
+    @Column(name = "stock")
+    private String stock;
+
+    @Column(name = "sector")
+    private String sector;
+
+    @Column(name = "volume")
+    private String volume;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "stock_properties_id", referencedColumnName = "id")
     private StockProperties properties;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "stock_formulas_id", referencedColumnName = "id")
     private StockFormulas formulas;
 
-    public Stock(String stock, String sector, String volume, StockFormulaResolver resolver) {
+    @Transient
+    private StockFormulaResolver resolver;
+
+    @Transient
+    private StockRepository repository;
+
+    protected Stock() {}
+
+    public Stock(String stock, String sector, String volume,
+                 StockFormulaResolver resolver, StockRepository repository) {
         this.stock = stock;
         this.sector = sector;
         this.volume = volume;
         this.resolver = resolver;
+        this.repository = repository;
     }
 
     public String name() {
         return stock;
     }
 
-    public void withFullProperties(StockProperties properties) {
+    public void withProperties(StockProperties properties) {
         this.properties = properties;
     }
 
-    public void createFormulas() {
+    public void withFormulas() {
         if(PreConditions.nonNull(properties)) {
             this.formulas = resolver.getFormulasBy(properties);
             return;
@@ -40,5 +61,10 @@ public class Stock {
 
     public StockFormulas getFormulas() {
         return this.formulas;
+    }
+
+
+    public void saveOrUpdate() {
+        repository.save(this);
     }
 }

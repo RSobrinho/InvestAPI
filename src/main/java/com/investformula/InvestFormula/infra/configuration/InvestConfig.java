@@ -1,8 +1,9 @@
 package com.investformula.InvestFormula.infra.configuration;
 
-import com.investformula.InvestFormula.application.InvestService;
+import com.investformula.InvestFormula.application.*;
 import com.investformula.InvestFormula.domain.OpenAIStockFormulaResolver;
 import com.investformula.InvestFormula.domain.StockFactory;
+import com.investformula.InvestFormula.domain.StockRepository;
 import com.investformula.InvestFormula.infra.brapi.BrapiInvestClient;
 import com.investformula.InvestFormula.infra.openai.OpenAIClient;
 import feign.Feign;
@@ -19,8 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class InvestConfig {
 
     private final ObjectFactory<HttpMessageConverters> messageConverters;
-
-
+    
     public InvestConfig(ObjectFactory<HttpMessageConverters> messageConverters) {
         this.messageConverters = messageConverters;
     }
@@ -56,18 +56,28 @@ public class InvestConfig {
     }
 
     @Bean
-    public OpenAIStockFormulaResolver openAIStockFormulaResolver() {
-        return new OpenAIStockFormulaResolver(openAIApiConfig(), openAIClient());
+    public OpenAIStockFormulaResolver openAIStockFormulaResolver(OpenAIApiConfig openAIApiConfig,
+                                                                 OpenAIClient openAIClient) {
+        return new OpenAIStockFormulaResolver(openAIApiConfig, openAIClient);
     }
 
     @Bean
-    public StockFactory stockFactory() {
-        return new StockFactory(openAIStockFormulaResolver());
+    public StockPropertiesFactory stockPropertiesFactory() {
+        return new StockPropertiesFactory();
     }
 
     @Bean
-    public InvestService investService() {
-        return new InvestService(brapiApiConfig(), brapiInvestClient(), stockFactory());
+    public StockFactory stockFactory(OpenAIStockFormulaResolver openAIStockFormulaResolver,
+                                     StockRepository stockRepository) {
+        return new StockFactory(openAIStockFormulaResolver, stockRepository);
+    }
+
+    @Bean
+    public InvestService investService(BrapiApiConfig brapiApiConfig,
+                                       BrapiInvestClient brapiInvestClient,
+                                       StockFactory stockFactory,
+                                       StockPropertiesFactory stockPropertiesFactory) {
+        return new InvestService(brapiApiConfig, brapiInvestClient, stockFactory, stockPropertiesFactory);
     }
 
 }
