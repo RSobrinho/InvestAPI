@@ -2,7 +2,7 @@ Please compute and return only a single line with the following financial metric
 
 P/E Ratio,<value>|Earnings Yield,<value>|Distance to 52-Week High (%),<value>|Distance to 52-Week Low (%),<value>|Daily Range,<value>|Average Daily Price,<value>|Daily Percentage Change (%),<value>
 
-If any metric is already provided in the JSON (e.g., priceEarnings for P/E Ratio), use that value where applicable. Do not include any commentary or explanation.
+If any metric is already provided in the JSON (e.g., priceEarnings for P/E Ratio), use that value where applicable. Do not include any commentary or explanation. In always situations and formulas, use only a maximum of 2 decimal places and do mathematical approximation if necessary, even on percents or absolute numbers.
 
 JSON:
 PUT_JSON_HERE

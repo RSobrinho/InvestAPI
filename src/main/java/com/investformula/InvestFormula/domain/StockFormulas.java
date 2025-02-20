@@ -1,5 +1,6 @@
 package com.investformula.InvestFormula.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 
 import java.util.Map;
@@ -8,11 +9,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "stock_formulas")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public final class StockFormulas {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "stock")
+    private String stock;
 
     @Convert(converter = JsonConverter.class)
     @Column(name = "raw_formulas", columnDefinition = "json")
@@ -20,7 +22,8 @@ public final class StockFormulas {
 
     protected StockFormulas() {}
 
-    public StockFormulas(Map<String, String> rawFormulas) {
+    public StockFormulas(String stock, Map<String, String> rawFormulas) {
+        this.stock = stock;
         this.rawFormulas = rawFormulas;
     }
 

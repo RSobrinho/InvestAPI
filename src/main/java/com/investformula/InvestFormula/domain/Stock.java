@@ -1,5 +1,6 @@
 package com.investformula.InvestFormula.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.investformula.InvestFormula.infra.PreConditions;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "stocks")
 @JsonIgnoreProperties({"resolver", "repository"})
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Stock implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,12 +25,12 @@ public class Stock implements Serializable {
     @Column(name = "volume")
     private String volume;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "stock_properties_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
     private StockProperties properties;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "stock_formulas_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
     private StockFormulas formulas;
 
     @Transient
@@ -50,7 +52,7 @@ public class Stock implements Serializable {
         this.repository = repository;
     }
 
-    public String name() {
+    public String getStock() {
         return stock;
     }
 

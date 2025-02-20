@@ -1,5 +1,6 @@
 package com.investformula.InvestFormula.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties;
 import jakarta.persistence.*;
 
@@ -7,14 +8,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "stocks_properties")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class StockProperties implements ExternalStockProperties {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "ticker")
-    private String ticker;
+    @Column(name = "stock")
+    private String stock;
 
     @Column(name = "regular_market_price")
     private String regularMarketPrice;
@@ -48,12 +47,12 @@ public class StockProperties implements ExternalStockProperties {
 
     protected StockProperties() {}
 
-    public StockProperties(String ticker, String regularMarketPrice, String earningsPerShare, String priceEarnings,
+    public StockProperties(String stock, String regularMarketPrice, String earningsPerShare, String priceEarnings,
                            String fiftyTwoWeekHigh, String fiftyTwoWeekLow, String regularMarketDayHigh,
                            String regularMarketDayLow, String regularMarketChange,
                            String regularMarketPreviousClose,
                            String regularMarketChangePercent) {
-        this.ticker = ticker;
+        this.stock = stock;
         this.regularMarketPrice = regularMarketPrice;
         this.earningsPerShare = earningsPerShare;
         this.priceEarnings = priceEarnings;
@@ -68,7 +67,7 @@ public class StockProperties implements ExternalStockProperties {
 
     @Override
     public String ticker() {
-        return ticker;
+        return stock;
     }
 
     @Override
@@ -126,7 +125,7 @@ public class StockProperties implements ExternalStockProperties {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (StockProperties) obj;
-        return Objects.equals(this.ticker, that.ticker) &&
+        return Objects.equals(this.stock, that.stock) &&
                 Objects.equals(this.regularMarketPrice, that.regularMarketPrice) &&
                 Objects.equals(this.earningsPerShare, that.earningsPerShare) &&
                 Objects.equals(this.priceEarnings, that.priceEarnings) &&
@@ -141,13 +140,13 @@ public class StockProperties implements ExternalStockProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticker, regularMarketPrice, earningsPerShare, priceEarnings, fiftyTwoWeekHigh, fiftyTwoWeekLow, regularMarketDayHigh, regularMarketDayLow, regularMarketChange, regularMarketPreviousClose, regularMarketChangePercent);
+        return Objects.hash(stock, regularMarketPrice, earningsPerShare, priceEarnings, fiftyTwoWeekHigh, fiftyTwoWeekLow, regularMarketDayHigh, regularMarketDayLow, regularMarketChange, regularMarketPreviousClose, regularMarketChangePercent);
     }
 
     @Override
     public String toString() {
         return "StockProperties[" +
-                "ticker=" + ticker + ", " +
+                "stock=" + stock + ", " +
                 "regularMarketPrice=" + regularMarketPrice + ", " +
                 "earningsPerShare=" + earningsPerShare + ", " +
                 "priceEarnings=" + priceEarnings + ", " +

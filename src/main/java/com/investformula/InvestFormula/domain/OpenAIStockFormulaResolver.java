@@ -33,7 +33,7 @@ public class OpenAIStockFormulaResolver implements StockFormulaResolver {
         List<OpenAIMessage> messages = getOpenAIMessages(properties);
         PromptResponse response = client.executePrompt(getHeaders(), new PromptRequest(MODEL, messages));
         String resultMessage = response.choices().get(0).message().content();
-        return new StockFormulas(convertInMap(resultMessage));
+        return new StockFormulas(properties.ticker(), convertInMap(resultMessage));
     }
 
     private Map<String, String> convertInMap(String message) {

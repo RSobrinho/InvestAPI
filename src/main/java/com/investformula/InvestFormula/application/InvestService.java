@@ -31,7 +31,7 @@ public class InvestService {
         this.stockPropertiesFactory = stockPropertiesFactory;
     }
 
-    @Cacheable(value = "stock_command", key = "#command.limit + '-' + #command.type + '-' + #command.sector")
+    @Cacheable(value = "stock_command", key = "#command.toString()")
     public List<Stock> getAllInvestContent(InvestContentCommand command) {
         GeneralInvestInfo generalInfo = brapiInvestClient.getGeneralInfo(apiConfig.getAuthorizationHeader(),
                 command.limit(), command.type(), command.sector());
@@ -54,7 +54,7 @@ public class InvestService {
     private void fulfillStocksInfo(List<Stock> incompleteStocks) {
         FullInvestInfo fullInvestInfo = getStockContent(incompleteStocks);
         incompleteStocks.forEach(stock -> {
-            ExternalStockProperties properties = fullInvestInfo.findByTicker(stock.name());
+            ExternalStockProperties properties = fullInvestInfo.findByTicker(stock.getStock());
             stock.withProperties(stockPropertiesFactory.create(properties));
             stock.withFormulas();
             stock.saveOrUpdate();
@@ -62,7 +62,7 @@ public class InvestService {
     }
 
     private FullInvestInfo getStockContent(List<Stock> stocks) {
-        String stocksName = stocks.stream().map(Stock::name).collect(Collectors.joining(","));
+        String stocksName = stocks.stream().map(Stock::getStock).collect(Collectors.joining(","));
         return brapiInvestClient.getByTicker(apiConfig.getAuthorizationHeader(), stocksName);
     }
 }
