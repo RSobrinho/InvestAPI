@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -31,6 +32,14 @@ public final class StockFormulas {
     public Map<String, String> rawFormulas() {
         return rawFormulas;
     }
+
+    public String stringifyRawFormulas() {
+        return rawFormulas.entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + "=" + entry.getValue())
+                .collect(Collectors.joining(", "));
+    }
+
 
     @Override
     public boolean equals(Object obj) {

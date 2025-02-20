@@ -1,7 +1,7 @@
 package com.investformula.InvestFormula.infra.configuration;
 
 import com.investformula.InvestFormula.application.factory.StockPropertiesFactory;
-import com.investformula.InvestFormula.application.service.InvestService;
+import com.investformula.InvestFormula.application.invest.InvestService;
 import com.investformula.InvestFormula.infra.openai.OpenAIStockFormulaResolver;
 import com.investformula.InvestFormula.application.factory.StockFactory;
 import com.investformula.InvestFormula.domain.interfaces.StockRepository;
@@ -77,8 +77,10 @@ public class InvestConfig {
     public InvestService investService(BrapiApiConfig brapiApiConfig,
                                        BrapiInvestClient brapiInvestClient,
                                        StockFactory stockFactory,
-                                       StockPropertiesFactory stockPropertiesFactory) {
-        return new InvestService(brapiApiConfig, brapiInvestClient, stockFactory, stockPropertiesFactory);
+                                       StockPropertiesFactory stockPropertiesFactory,
+                                       StockRepository stockRepository) {
+        return new InvestService(brapiApiConfig, brapiInvestClient, stockFactory,
+                stockPropertiesFactory, stockRepository);
     }
 
 }

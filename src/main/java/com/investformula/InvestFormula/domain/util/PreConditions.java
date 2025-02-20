@@ -6,4 +6,11 @@ public class PreConditions {
         return value != null;
     }
 
+    public static String blankWhenNull(String value) {
+        if(value == null) {
+            return "";
+        }
+        return value;
+    }
+
 }

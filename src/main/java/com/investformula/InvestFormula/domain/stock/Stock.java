@@ -56,6 +56,22 @@ public class Stock implements Serializable {
         return stock;
     }
 
+    public String getSector() {
+        return sector;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public StockProperties getProperties() {
+        return this.properties;
+    }
+
+    public StockFormulas getFormulas() {
+        return this.formulas;
+    }
+
     public void withProperties(StockProperties properties) {
         this.properties = properties;
     }
@@ -66,10 +82,6 @@ public class Stock implements Serializable {
             return;
         }
         throw new IllegalArgumentException("full properties is null");
-    }
-
-    public StockFormulas getFormulas() {
-        return this.formulas;
     }
 
     public void saveOrUpdate() {
