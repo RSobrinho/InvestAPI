@@ -1,10 +1,11 @@
-package com.investformula.InvestFormula.application;
+package com.investformula.InvestFormula.application.service;
 
 import com.investformula.InvestFormula.application.command.InvestContentCommand;
-import com.investformula.InvestFormula.domain.Stock;
-import com.investformula.InvestFormula.domain.StockFactory;
+import com.investformula.InvestFormula.application.factory.StockFactory;
+import com.investformula.InvestFormula.application.factory.StockPropertiesFactory;
+import com.investformula.InvestFormula.domain.stock.Stock;
 import com.investformula.InvestFormula.domain.interfaces.FullInvestInfo;
-import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties;
+import com.investformula.InvestFormula.domain.interfaces.StockPropertiesRequest;
 import com.investformula.InvestFormula.infra.brapi.BrapiInvestClient;
 import com.investformula.InvestFormula.domain.interfaces.GeneralInvestInfo;
 import com.investformula.InvestFormula.infra.configuration.ApiConfig;
@@ -47,14 +48,14 @@ public class InvestService {
 
     private List<Stock> getIncompleteStocks(GeneralInvestInfo generalInvestInfo) {
         List<Stock> stocks = new ArrayList<>();
-        generalInvestInfo.stocks().forEach(stockRequest -> stocks.add(stockFactory.simpleCreate(stockRequest)));
+        generalInvestInfo.stocks().forEach(stockRequest -> stocks.add(stockFactory.create(stockRequest)));
         return stocks;
     }
 
     private void fulfillStocksInfo(List<Stock> incompleteStocks) {
         FullInvestInfo fullInvestInfo = getStockContent(incompleteStocks);
         incompleteStocks.forEach(stock -> {
-            ExternalStockProperties properties = fullInvestInfo.findByTicker(stock.getStock());
+            StockPropertiesRequest properties = fullInvestInfo.findByTicker(stock.getStock());
             stock.withProperties(stockPropertiesFactory.create(properties));
             stock.withFormulas();
             stock.saveOrUpdate();

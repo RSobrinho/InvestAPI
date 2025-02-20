@@ -1,6 +1,6 @@
-package com.investformula.InvestFormula.infra.invest.request;
+package com.investformula.InvestFormula.infra.invest;
 
-import com.investformula.InvestFormula.domain.Stock;
+import com.investformula.InvestFormula.domain.stock.Stock;
 
 import java.util.List;
 import java.util.stream.Collectors;

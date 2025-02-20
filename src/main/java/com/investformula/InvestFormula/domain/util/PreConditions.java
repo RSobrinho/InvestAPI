@@ -1,4 +1,4 @@
-package com.investformula.InvestFormula.infra;
+package com.investformula.InvestFormula.domain.util;
 
 public class PreConditions {
 

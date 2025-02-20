@@ -1,9 +1,11 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.domain.stock;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.investformula.InvestFormula.infra.PreConditions;
+import com.investformula.InvestFormula.domain.interfaces.StockFormulaResolver;
+import com.investformula.InvestFormula.domain.interfaces.StockRepository;
+import com.investformula.InvestFormula.domain.util.PreConditions;
 import jakarta.persistence.*;
 import java.io.Serializable;
 
@@ -12,8 +14,6 @@ import java.io.Serializable;
 @JsonIgnoreProperties({"resolver", "repository"})
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Stock implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "stock")

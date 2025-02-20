@@ -1,8 +1,8 @@
 package com.investformula.InvestFormula.domain.interfaces;
 
 
-public interface ExternalStockProperties {
-    String ticker();
+public interface StockPropertiesRequest {
+    String stock();
     String regularMarketPrice();
     String earningsPerShare();
     String priceEarnings();

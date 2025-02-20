@@ -1,7 +1,6 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.domain.stock;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -9,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "stocks_properties")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class StockProperties implements ExternalStockProperties {
+public class StockProperties {
 
     @Id
     @Column(name = "stock")
@@ -65,57 +64,47 @@ public class StockProperties implements ExternalStockProperties {
         this.regularMarketChangePercent = regularMarketChangePercent;
     }
 
-    @Override
-    public String ticker() {
+    public String stock() {
         return stock;
     }
 
-    @Override
     public String regularMarketPrice() {
         return regularMarketPrice;
     }
 
-    @Override
     public String earningsPerShare() {
         return earningsPerShare;
     }
 
-    @Override
     public String priceEarnings() {
         return priceEarnings;
     }
 
-    @Override
     public String fiftyTwoWeekHigh() {
         return fiftyTwoWeekHigh;
     }
 
-    @Override
     public String fiftyTwoWeekLow() {
         return fiftyTwoWeekLow;
     }
 
-    @Override
     public String regularMarketDayHigh() {
         return regularMarketDayHigh;
     }
 
-    @Override
     public String regularMarketDayLow() {
         return regularMarketDayLow;
     }
 
-    @Override
     public String regularMarketChange() {
         return regularMarketChange;
     }
 
-    @Override
+
     public String regularMarketPreviousClose() {
         return regularMarketPreviousClose;
     }
 
-    @Override
     public String regularMarketChangePercent() {
         return regularMarketChangePercent;
     }

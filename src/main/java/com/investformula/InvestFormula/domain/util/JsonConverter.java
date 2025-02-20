@@ -1,4 +1,4 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.domain.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

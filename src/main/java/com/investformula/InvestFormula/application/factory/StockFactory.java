@@ -1,8 +1,12 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.application.factory;
 
+import com.investformula.InvestFormula.domain.interfaces.DefaultFactory;
+import com.investformula.InvestFormula.domain.stock.Stock;
+import com.investformula.InvestFormula.domain.interfaces.StockFormulaResolver;
+import com.investformula.InvestFormula.domain.interfaces.StockRepository;
 import com.investformula.InvestFormula.domain.interfaces.StockRequest;
 
-public class StockFactory {
+public class StockFactory implements DefaultFactory<Stock, StockRequest> {
     private final StockFormulaResolver stockFormulaResolver;
 
     private final StockRepository stockRepository;
@@ -12,7 +16,7 @@ public class StockFactory {
         this.stockRepository = stockRepository;
     }
 
-    public Stock simpleCreate(StockRequest infoRequest) {
+    public Stock create(StockRequest infoRequest) {
         return new Stock(infoRequest.stock(), infoRequest.sector(), infoRequest.volume(),
                 stockFormulaResolver, stockRepository);
     }

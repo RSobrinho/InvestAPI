@@ -1,11 +1,11 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.infra.openai;
 
-import com.investformula.InvestFormula.domain.interfaces.ExternalStockProperties;
+import com.investformula.InvestFormula.domain.interfaces.StockPropertiesRequest;
+import com.investformula.InvestFormula.domain.interfaces.StockFormulaResolver;
+import com.investformula.InvestFormula.domain.stock.StockFormulas;
+import com.investformula.InvestFormula.domain.stock.StockProperties;
+import com.investformula.InvestFormula.domain.util.FileReader;
 import com.investformula.InvestFormula.infra.configuration.ApiConfig;
-import com.investformula.InvestFormula.infra.openai.OpenAIClient;
-import com.investformula.InvestFormula.infra.openai.OpenAIMessage;
-import com.investformula.InvestFormula.infra.openai.PromptRequest;
-import com.investformula.InvestFormula.infra.openai.PromptResponse;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +29,14 @@ public class OpenAIStockFormulaResolver implements StockFormulaResolver {
         this.client = client;
     }
 
-    public StockFormulas getFormulasBy(ExternalStockProperties properties) {
+    @Override
+    public StockFormulas getFormulasBy(StockProperties properties) {
         List<OpenAIMessage> messages = getOpenAIMessages(properties);
         PromptResponse response = client.executePrompt(getHeaders(), new PromptRequest(MODEL, messages));
         String resultMessage = response.choices().get(0).message().content();
-        return new StockFormulas(properties.ticker(), convertInMap(resultMessage));
+        return new StockFormulas(properties.stock(), convertInMap(resultMessage));
     }
+
 
     private Map<String, String> convertInMap(String message) {
         Map<String, String> formulasValues = new HashMap<>();
@@ -58,7 +60,7 @@ public class OpenAIStockFormulaResolver implements StockFormulaResolver {
     }
 
     @NotNull
-    private static List<OpenAIMessage> getOpenAIMessages(ExternalStockProperties properties) {
+    private static List<OpenAIMessage> getOpenAIMessages(StockProperties properties) {
         String completeUserPrompt = FileReader.read(USER_PROMPT_PATH).replace("PUT_JSON_HERE", properties.toString());
         return List.of(OpenAIMessage.developerWith(FileReader.read(DEVELOPER_PROMPT_PATH)),
                 OpenAIMessage.userWith(completeUserPrompt));

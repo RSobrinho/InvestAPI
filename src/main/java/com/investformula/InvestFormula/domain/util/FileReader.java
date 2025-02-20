@@ -1,4 +1,4 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.domain.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

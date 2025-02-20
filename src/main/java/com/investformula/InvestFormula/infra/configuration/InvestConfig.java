@@ -1,9 +1,10 @@
 package com.investformula.InvestFormula.infra.configuration;
 
-import com.investformula.InvestFormula.application.*;
-import com.investformula.InvestFormula.domain.OpenAIStockFormulaResolver;
-import com.investformula.InvestFormula.domain.StockFactory;
-import com.investformula.InvestFormula.domain.StockRepository;
+import com.investformula.InvestFormula.application.factory.StockPropertiesFactory;
+import com.investformula.InvestFormula.application.service.InvestService;
+import com.investformula.InvestFormula.infra.openai.OpenAIStockFormulaResolver;
+import com.investformula.InvestFormula.application.factory.StockFactory;
+import com.investformula.InvestFormula.domain.interfaces.StockRepository;
 import com.investformula.InvestFormula.infra.brapi.BrapiInvestClient;
 import com.investformula.InvestFormula.infra.openai.OpenAIClient;
 import feign.Feign;

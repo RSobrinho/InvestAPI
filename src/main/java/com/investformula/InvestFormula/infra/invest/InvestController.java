@@ -1,9 +1,7 @@
 package com.investformula.InvestFormula.infra.invest;
 
-import com.investformula.InvestFormula.application.InvestService;
-import com.investformula.InvestFormula.domain.Stock;
-import com.investformula.InvestFormula.infra.invest.request.GetAllRequest;
-import com.investformula.InvestFormula.infra.invest.request.InvestStocksResponse;
+import com.investformula.InvestFormula.application.service.InvestService;
+import com.investformula.InvestFormula.domain.stock.Stock;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

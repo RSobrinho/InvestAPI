@@ -1,7 +1,6 @@
-package com.investformula.InvestFormula.infra.invest.request;
+package com.investformula.InvestFormula.infra.invest;
 
-import com.investformula.InvestFormula.domain.Stock;
-import com.investformula.InvestFormula.infra.StockFormulasResponse;
+import com.investformula.InvestFormula.domain.stock.Stock;
 
 public record InvestStockResponse(String stockName, StockFormulasResponse stockFormulasResponse) {
     public static InvestStockResponse from(Stock stock) {

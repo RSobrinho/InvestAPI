@@ -1,6 +1,6 @@
-package com.investformula.InvestFormula.infra;
+package com.investformula.InvestFormula.infra.invest;
 
-import com.investformula.InvestFormula.domain.StockFormulas;
+import com.investformula.InvestFormula.domain.stock.StockFormulas;
 
 import java.util.Map;
 

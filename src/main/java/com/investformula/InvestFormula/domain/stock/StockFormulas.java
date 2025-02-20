@@ -1,6 +1,7 @@
-package com.investformula.InvestFormula.domain;
+package com.investformula.InvestFormula.domain.stock;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.investformula.InvestFormula.domain.util.JsonConverter;
 import jakarta.persistence.*;
 
 import java.util.Map;
