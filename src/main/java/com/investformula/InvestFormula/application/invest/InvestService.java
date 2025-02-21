@@ -53,7 +53,6 @@ public class InvestService {
         List<Stock> stocks = stockRepository.findAll();
         String csvData = createStocksCsv(stocks);
         Files.writeString(filePath, csvData);
-        System.out.println("CSV file created at: " + filePath.toAbsolutePath());
         return filePath;
     }
 

@@ -8,6 +8,7 @@ import com.investformula.InvestFormula.domain.interfaces.StockRepository;
 import com.investformula.InvestFormula.domain.util.PreConditions;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "stocks")
@@ -86,5 +87,32 @@ public class Stock implements Serializable {
 
     public void saveOrUpdate() {
         repository.save(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (Stock) obj;
+        return Objects.equals(this.stock, that.stock) &&
+                Objects.equals(this.sector, that.sector) &&
+                Objects.equals(this.volume, that.volume) &&
+                Objects.equals(this.properties, that.properties) &&
+                Objects.equals(this.formulas, that.formulas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(stock, sector, volume, properties, formulas);
+    }
+
+    @Override
+    public String toString() {
+        return "Stock[" +
+                "stock=" + stock + ", " +
+                "sector=" + sector + ", " +
+                "volume=" + volume + ", " +
+                "properties=" + properties + ", " +
+                "formulas=" + formulas + ']';
     }
 }

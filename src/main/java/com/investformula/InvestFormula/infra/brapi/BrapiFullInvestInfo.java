@@ -5,7 +5,8 @@ import com.investformula.InvestFormula.domain.interfaces.StockPropertiesRequest;
 
 import java.util.List;
 
-public record BrapiFullInvestInfo(List<BrapiStockPropertiesRequest> results, String requestedAt, String took) implements FullInvestInfo {
+public record BrapiFullInvestInfo(List<BrapiStockPropertiesRequest> results, String requestedAt,
+                                  String took) implements FullInvestInfo {
     @Override
     public List<? extends StockPropertiesRequest> stockProperties() {
         return results;
